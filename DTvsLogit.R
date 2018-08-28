@@ -29,13 +29,13 @@ y.pred <- matrix(predict(fit, newdata = x1x2,type="response"),
 # fitted points for droplines to surface
 fitpoints <- predict(fit,type="response")
 
-scatter3D(x1, x2, y,   cex = 0.5, cex.lab=1.5,type="p",pch = 19,alpha=0.5,
-          theta = 100, phi = 35, ticktype = "detailed",col="orange",bty = "b2",
+scatter3D(x1, x2, y,   cex = 1, cex.lab=1.5,type="p",pch = 19,alpha=0.5,
+          theta = 80, phi = 30, ticktype = "detailed",col="red",bty = "b2",
           xlab="x1",
           ylab="x2",
           zlab="y", 
-          surf = list(col="purple",x = x1.pred, y = x2.pred, z = y.pred, facets=F,
-                      alpha=0.7, 
+          expand =0.6, 
+          surf = list(x = x1.pred, y = x2.pred, z = y.pred, col = viridis(200), shade = 0.35,
                       lwd=1.25,lty=2),colkey = FALSE)
 
 
@@ -43,10 +43,15 @@ tree_model <- rpart(y~x1+x2)
 yt.pred <- matrix(predict(tree_model, newdata = x1x2), 
                  nrow = grid.lines, ncol = grid.lines)
 
-scatter3D(x1, x2, y,  cex = 0.5, cex.lab=1.5,type="p",pch = 19,alpha=0.5,
-          theta = 45, phi = 35, ticktype = "detailed",col="orange",bty = "b2",
+scatter3D(x1, x2, y,  cex = 1, cex.lab=1.5,type="p",pch = 19,alpha=0.5,
+          theta = 80, phi = 30, ticktype = "detailed",col="red",bty = "u",
           xlab="x1",
           ylab="x2",
           zlab="y", 
-          surf = list(col="purple",x = x1.pred, y = x2.pred, z = yt.pred,facets=F,
-                      lwd=0.5,lty=1),colkey = FALSE)
+          expand =0.6, 
+          colkey = FALSE,
+            surf = list(x = x1.pred, y = x2.pred, z = yt.pred,col = viridis(200), shade = 0.35,
+                      lwd=0.5,lty=1))
+
+
+

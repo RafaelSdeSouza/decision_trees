@@ -9,6 +9,8 @@
 
 require(ggplot2)
 require(mgcv)
+require(rpart)
+require(xkcd)
 set.seed(13979)                          # set seed to replicate example
 nobs <- 2500                             # number of obsservations 
 nmax <- 1.5                              # limits on random variable
@@ -81,4 +83,6 @@ ggplot(logitmod,aes(x=x1,y=by)) +
   xlab("x") + coord_cartesian(ylim=c(-0.2,1.025)) +
   theme(axis.title=element_text(size=40),axis.text  = element_text(size=25),
         panel.background = element_rect(color = "black", fill = "gray95") )
+
+
 
