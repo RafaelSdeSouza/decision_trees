@@ -1,8 +1,8 @@
 # Logit vs Random forest
 
 require("plot3D")
-require(viridis)
-require(msm)
+require(randomForest)
+require(neuralnet)
 
 set.seed(1056)                                        # set seed to replicate example
 nobs= 1000                                            # number of obs in model 
@@ -41,23 +41,37 @@ scatter3D(x1, x2, y,   cex = 1, cex.lab=1.5,type="p",pch = 19,alpha=0.5,
                       lwd=1.25,lty=2),colkey = FALSE)
 
 
-tree_model <- rpart(y~x1+x2)
-yt.pred <- matrix(predict(tree_model, newdata = x1x2), 
-                 nrow = grid.lines, ncol = grid.lines)
+yf <- as.factor(y)
 
-scatter3D(x1, x2, y,  cex = 1, cex.lab=1.5,type="p",pch = 19,alpha=0.5,
-          theta = 80, phi = 30, ticktype = "detailed",col="red",bty = "u",
-          xlab="x1",
-          ylab="x2",
-          zlab="y", 
-          expand =0.6, 
-          colkey = FALSE,
+
+
+
+
+ann_data <- data.frame(y,x1,x1)
+ann_model <- neuralnet(y~x1+x2,data=ann_data,hidden=3,linear.output = F)
+  
+  
+yt.pred <- matrix(compute(ann_model, x1x2)$net.result, 
+                      nrow = grid.lines, ncol = grid.lines)
+  
+
+      scatter3D(x1, x2, y,  cex = 1, cex.lab=1.5,type="p",pch = 19,alpha=0.5,
+            theta = 80, phi = 30, ticktype = "detailed",col="red",bty = "u",
+            xlab="x1",
+            ylab="x2",
+            zlab="y", 
+            expand =0.6, 
+            colkey = FALSE,
             surf = list(x = x1.pred, y = x2.pred, z = yt.pred,col = viridis(200), shade = 0.35,
-                      lwd = 0.5,lty = 1))
+                        lwd=0.5,lty=1)
+      )
 
 
-plotmo(tree_model, type2="image")
 
-plotmo(tree_model,type = "prob", nresponse = "y", # right graph
-       type2 = "image", ngrid2 = 200,              # type2 = "image" for an image plot
-       pt.col = ifelse("y" == 1, "red", "lightblue"))
+
+
+
+
+
+
+
